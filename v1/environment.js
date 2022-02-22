@@ -28,7 +28,13 @@ const createScene = function () {
   BABYLON.SceneLoader.ImportMeshAsync("", "", "environment.gltf").then((result) => {
 
     if (scene.getMeshByName("humanSizeReference") !== null) {
-      scene.getMeshByName("humanSizeReference").isVisible = false;
+      let humanSizeReference = scene.getMeshByName("humanSizeReference");
+      humanSizeReference.isVisible = false;
+      
+      camera.position.x = humanSizeReference.position.x;
+      camera.position.y = humanSizeReference.position.y;
+      camera.position.z = humanSizeReference.position.z;
+
     }
 
 
@@ -54,33 +60,10 @@ const createScene = function () {
 
     //console.log(collisionHolder._children);
 
-    if (scene.getMeshByName("imageHolder") !== null) {
-
-      let imageHolder = scene.getMeshByName("imageHolder");
-    //console.log(imageHolder._children);
-      
-      if (imageHolder._children !== null) {
-      //if (imageHolder.hasOwnProperty("_children") && imageHolder._children.length !== null) {
-        imageHolder._children.forEach((mesh) => {
-        
-          //console.log(mesh.name);
-          mesh.visibility = 0;
-          mesh.imagePopup = true;
-
-          //mesh._children.forEach((mesh) => {
-            //mesh.isVisible = false;
-          //});
-
-
-        });
-      }
-      imageHolder.isVisible = false;
-    }
 
     console.log(scene.meshes);
 
     if (scene.getMeshByName("linkHolder") !== null) {
-
       let linkHolder = scene.getMeshByName("linkHolder");
       if (linkHolder._children !== null) {
         linkHolder._children.forEach((mesh) => {
@@ -94,6 +77,7 @@ const createScene = function () {
           //mesh.isVisible = false;
           mesh.visibility = 0;
           mesh.linkPopup = true;
+          
           //mesh.collisionsEnabled = true;
           //mesh.checkCollisions = true;
           //mesh.isVisible = false;
@@ -144,10 +128,12 @@ const createScene = function () {
   camera.keysRight.push(68);
   
   //args vor vector: width, height, ??. if first arg is 1, walls won't clip when get close. Just adjust second arg is fine for height
-  camera.ellipsoid = new BABYLON.Vector3(0.5, 0.8, 0.5);
+  camera.ellipsoid = new BABYLON.Vector3(0.1, 0.8, 0.1);
   camera.checkCollisions = true;
 
-  scene.gravity = new BABYLON.Vector3(0, -2, 0); //allows walking up ramps. Needs be greater than -2 or else can walk up walls
+  scene.gravity = new BABYLON.Vector3(0, -.2, 0); //allows walking up ramps. Needs be greater than -2 or else can walk up walls
+  camera._needMoveForGravity = true; //If this is missing, gravity only works while moving
+  
   scene.activeCamera.applyGravity = true;
   //scene.activeCamera._needMoveForGravity = true;
   scene.activeCamera.speed = 2;
@@ -252,12 +238,6 @@ const createScene = function () {
       //rayHelper.show(scene);
       hits = scene.multiPickWithRay(ray);
   
-      if (hits){
-         for (var i=0; i<hits.length; i++){
-             //hits[i].pickedMesh.scaling.y += 0.01;
-               //console.log(hits[0].pickedMesh.name);
-         }
-    }
   }
 
   scene.registerBeforeRender(function () {
@@ -329,7 +309,7 @@ const createScene = function () {
 
 
         else if (hitMesh.hasOwnProperty("linkPopup")) {
-          console.log('link popup or image popup');
+          console.log('link popup');
           //console.log(hitMesh.name);
           //console.log(windowFocused);
           if (windowFocused) {
