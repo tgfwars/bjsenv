@@ -20,8 +20,19 @@ const createScene = function () {
   
   scene.clearColor = new BABYLON.Color3(0.1, 0.05, 0.05);
 
-
   let floorMeshes = [];
+  let plane = BABYLON.MeshBuilder.CreatePlane("ground", {
+      height: 1000,
+      width: 1000
+    }, scene)
+
+  plane.rotate(BABYLON.Axis.X, Math.PI / 2, BABYLON.Space.WORLD);
+
+  plane.collisionsEnabled = true;
+  plane.checkCollisions = true;
+  plane.isVisible = false;
+  plane.position.y = 0;
+
 
 
 
@@ -30,9 +41,14 @@ const createScene = function () {
     if (scene.getMeshByName("humanSizeReference") !== null) {
       let humanSizeReference = scene.getMeshByName("humanSizeReference");
       humanSizeReference.isVisible = false;
-      
+    
+      if (humanSizeReference.position.y < 1) {
+        camera.position.y = 1.7;
+        
+      } else {
+        camera.position.y = humanSizeReference.position.y;
+      } 
       camera.position.x = humanSizeReference.position.x;
-      camera.position.y = humanSizeReference.position.y;
       camera.position.z = humanSizeReference.position.z;
 
     }
