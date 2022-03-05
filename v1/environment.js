@@ -480,6 +480,7 @@ function generateYouTubeEmbed(url) {
   return output;
 }
 
+
 /*
 Notes
 pointerlock
