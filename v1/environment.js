@@ -40,17 +40,24 @@ const createScene = function () {
 
     if (scene.getMeshByName("humanSizeReference") !== null) {
       let humanSizeReference = scene.getMeshByName("humanSizeReference");
-      humanSizeReference.isVisible = false;
+      //humanSizeReference.isVisible = false;
     
-      if (humanSizeReference.position.y < 1) {
+      if (humanSizeReference.position.y < 1) { //correct
         camera.position.y = 1.7;
         
       } else {
         camera.position.y = humanSizeReference.position.y;
       } 
-      camera.position.x = humanSizeReference.position.x;
+      camera.position.x = -1 * humanSizeReference.position.x; //correct
       camera.position.z = humanSizeReference.position.z;
 
+      console.log(humanSizeReference.position.x);
+      console.log(camera.position.x);
+      
+      //camera.position.y=100;
+      //camera.position.x=2; //correct
+      //camera.position.z=-10;
+      
     }
 
 
