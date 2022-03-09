@@ -40,7 +40,7 @@ const createScene = function () {
 
     if (scene.getMeshByName("humanSizeReference") !== null) {
       let humanSizeReference = scene.getMeshByName("humanSizeReference");
-      //humanSizeReference.isVisible = false;
+      humanSizeReference.isVisible = false;
     
       if (humanSizeReference.position.y < 1) { //correct
         camera.position.y = 1.7;
