@@ -17,7 +17,7 @@ const engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engi
 const createScene = function () {
 
   const scene = new BABYLON.Scene(engine);  
-  
+   scene.useRightHandedSystem = true; 
   scene.clearColor = new BABYLON.Color3(0.1, 0.05, 0.05);
 
   let floorMeshes = [];
@@ -48,8 +48,8 @@ const createScene = function () {
       } else {
         camera.position.y = humanSizeReference.position.y;
       } 
-      //camera.position.x = -1 * humanSizeReference.position.x; //correct
-      //camera.position.z = humanSizeReference.position.z;
+      camera.position.x = humanSizeReference.position.x;
+      camera.position.z = humanSizeReference.position.z;
 
       console.log(humanSizeReference.position.x);
       console.log(camera.position.x);
