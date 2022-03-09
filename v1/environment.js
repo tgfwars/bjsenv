@@ -52,7 +52,7 @@ const createScene = function () {
       camera.position.z = humanSizeReference.position.z;
 
       console.log(humanSizeReference.position.x);
-      console.log(.position.x);
+      console.log(humanSizeReference.position.x);
       
       //camera.position.y=100;
       //camera.position.x=2; //correct
