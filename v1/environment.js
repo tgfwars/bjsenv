@@ -1,3 +1,21 @@
+function getUrlVars()
+{
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
+
+var _get = getUrlVars();
+
+  
+
+
   var windowFocused = false;
   let createPointerLock = function(scene) {
     let canvas = scene.getEngine().getRenderingCanvas();
@@ -16,7 +34,8 @@ const engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engi
 // Add your code here matching the playground format
 const createScene = function () {
 
-  const scene = new BABYLON.Scene(engine);  
+  var scene = new BABYLON.Scene(engine);  
+  //scene.useRightHandedSystem = true; 
   
   scene.clearColor = new BABYLON.Color3(0.1, 0.05, 0.05);
 
@@ -40,19 +59,22 @@ const createScene = function () {
 
     if (scene.getMeshByName("humanSizeReference") !== null) {
       let humanSizeReference = scene.getMeshByName("humanSizeReference");
+      humanSizeReference.setParent(null);
+
       humanSizeReference.isVisible = false;
-    
+      //humanSizeReference.useRightHandedSystem = false;
+
       if (humanSizeReference.position.y < 1) { //correct
         camera.position.y = 1.7;
         
       } else {
         camera.position.y = humanSizeReference.position.y;
       } 
-      //camera.position.x = -1 * humanSizeReference.position.x; //correct
-      //camera.position.z = humanSizeReference.position.z;
+      camera.position.x = humanSizeReference.position.x; //correct
+      camera.position.z = humanSizeReference.position.z;
 
-      //console.log(humanSizeReference.position.x);
-      //console.log(humanSizeReference.position.x);
+      console.log(humanSizeReference.position.x);
+      console.log(humanSizeReference.position.y);
       
       //camera.position.y=100;
       //camera.position.x=2; //correct
@@ -67,6 +89,15 @@ const createScene = function () {
       item.loopMode = BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE;
     });
 
+  
+    //let root = scene.getMeshByName("__root__");
+    //if (root._children !== null) {
+      //root._children.forEach((mesh) => {
+        //console.log(mesh);
+        //mesh.setParent(null);
+
+      //});
+    //}
 
 
     let collisionHolder = scene.getMeshByName("collisionHolder");
@@ -141,6 +172,7 @@ const createScene = function () {
 
 
   let camera = new BABYLON.UniversalCamera("Camera", new BABYLON.Vector3(0, 1.7, 0), scene);//edit coordinates it should start at to match height. 2nd param important
+
   camera.minZ = 0;
   camera.attachControl(canvas, true);
 
@@ -415,7 +447,9 @@ const createScene = function () {
 
 
 
-  //scene.debugLayer.show();
+  if (_get['debug']) {
+    scene.debugLayer.show();
+  }
 
   return scene;
 };
