@@ -17,7 +17,7 @@ const engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engi
 const createScene = function () {
 
   const scene = new BABYLON.Scene(engine);  
-   scene.useRightHandedSystem = true; 
+  
   scene.clearColor = new BABYLON.Color3(0.1, 0.05, 0.05);
 
   let floorMeshes = [];
@@ -40,7 +40,7 @@ const createScene = function () {
 
     if (scene.getMeshByName("humanSizeReference") !== null) {
       let humanSizeReference = scene.getMeshByName("humanSizeReference");
-      humanSizeReference.isVisible = false;
+      //humanSizeReference.isVisible = false;
     
       if (humanSizeReference.position.y < 1) { //correct
         camera.position.y = 1.7;
@@ -48,11 +48,11 @@ const createScene = function () {
       } else {
         camera.position.y = humanSizeReference.position.y;
       } 
-      camera.position.x = humanSizeReference.position.x;
+      camera.position.x = -1 * humanSizeReference.position.x; //correct
       camera.position.z = humanSizeReference.position.z;
 
       console.log(humanSizeReference.position.x);
-      console.log(camera.position.x);
+      console.log(.position.x);
       
       //camera.position.y=100;
       //camera.position.x=2; //correct
