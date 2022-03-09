@@ -48,8 +48,8 @@ const createScene = function () {
       } else {
         camera.position.y = humanSizeReference.position.y;
       } 
-      camera.position.x = -1 * humanSizeReference.position.x; //correct
-      camera.position.z = humanSizeReference.position.z;
+      //camera.position.x = -1 * humanSizeReference.position.x; //correct
+      //camera.position.z = humanSizeReference.position.z;
 
       console.log(humanSizeReference.position.x);
       console.log(camera.position.x);
