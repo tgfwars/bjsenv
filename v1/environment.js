@@ -31,145 +31,7 @@ var _get = getUrlVars();
 const canvas = document.getElementById("renderCanvas"); // Get the canvas element
 const engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
 
-// Add your code here matching the playground format
-const createScene = function () {
-
-  var scene = new BABYLON.Scene(engine);  
-  //scene.useRightHandedSystem = true; 
-  
-  scene.clearColor = new BABYLON.Color3(0.1, 0.05, 0.05);
-
-  let floorMeshes = [];
-  let plane = BABYLON.MeshBuilder.CreatePlane("ground", {
-      height: 1000,
-      width: 1000
-    }, scene)
-
-  plane.rotate(BABYLON.Axis.X, Math.PI / 2, BABYLON.Space.WORLD);
-
-  plane.collisionsEnabled = true;
-  plane.checkCollisions = true;
-  plane.isVisible = false;
-  plane.position.y = 0;
-
-
-
-
-  BABYLON.SceneLoader.ImportMeshAsync("", "", "environment.gltf").then((result) => {
-
-    if (scene.getMeshByName("humanSizeReference") !== null) {
-      let humanSizeReference = scene.getMeshByName("humanSizeReference");
-      humanSizeReference.setParent(null);
-
-      humanSizeReference.isVisible = false;
-      //humanSizeReference.useRightHandedSystem = false;
-
-      if (humanSizeReference.position.y < 1) { //correct
-        camera.position.y = 1.7;
-        
-      } else {
-        camera.position.y = humanSizeReference.position.y;
-      } 
-      camera.position.x = humanSizeReference.position.x; //correct
-      camera.position.z = humanSizeReference.position.z;
-
-      console.log(humanSizeReference.position.x);
-      console.log(humanSizeReference.position.y);
-      
-      //camera.position.y=100;
-      //camera.position.x=2; //correct
-      //camera.position.z=-10;
-      
-    }
-
-
-    scene.animationGroups.forEach(function(item) {
-      //item.stop();
-      item.start();
-      item.loopMode = BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE;
-    });
-
-  
-    //let root = scene.getMeshByName("__root__");
-    //if (root._children !== null) {
-      //root._children.forEach((mesh) => {
-        //console.log(mesh);
-        //mesh.setParent(null);
-
-      //});
-    //}
-
-
-    let collisionHolder = scene.getMeshByName("collisionHolder");
-    //console.log(collisionHolder._children);
-    if (collisionHolder._children !== null) {
-      collisionHolder._children.forEach((mesh) => {
-        mesh.collisionsEnabled = true;
-        mesh.checkCollisions = true;
-        mesh.isVisible = false;
-        floorMeshes.push(mesh); 
-      });
-    }
-    collisionHolder.isVisible = false;
-
-    //console.log(collisionHolder._children);
-
-
-    console.log(scene.meshes);
-
-    if (scene.getMeshByName("linkHolder") !== null) {
-      let linkHolder = scene.getMeshByName("linkHolder");
-      if (linkHolder._children !== null) {
-        linkHolder._children.forEach((mesh) => {
-          let buttonAction = function() {
-            console.log("clicka");
-          }
-          mesh.actionManager = new BABYLON.ActionManager(scene);
-          mesh.actionManager.registerAction(
-          new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, buttonAction)
-        ); 
-          //mesh.isVisible = false;
-          mesh.visibility = 0;
-          mesh.linkPopup = true;
-          
-          //mesh.collisionsEnabled = true;
-          //mesh.checkCollisions = true;
-          //mesh.isVisible = false;
-        });
-      }
-      linkHolder.isVisible = false;
-    }
-
-
-    if (scene.getMeshByName("imageHolder") !== null) {
-
-      let holder = scene.getMeshByName("imageHolder");
-      if (holder._children !== null) {
-       holder._children.forEach((mesh) => {
-          let buttonAction = function() {
-            console.log("clicka");
-          }
-          mesh.actionManager = new BABYLON.ActionManager(scene);
-          mesh.actionManager.registerAction(
-          new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, buttonAction)
-        ); 
-          //mesh.isVisible = false;
-          mesh.visibility = 0;
-          mesh.imagePopup = true;
-          //mesh.collisionsEnabled = true;
-          //mesh.checkCollisions = true;
-          //mesh.isVisible = false;
-        });
-      }
-      holder.isVisible = false;
-    }
-
-
-
-  });
-
-
-
+BABYLON.SceneLoader.Load("", "environment.gltf", engine, function(scene) {
 
   let camera = new BABYLON.UniversalCamera("Camera", new BABYLON.Vector3(0, 1.7, 0), scene);//edit coordinates it should start at to match height. 2nd param important
 
@@ -205,6 +67,139 @@ const createScene = function () {
   //light.intensity = 100;
 
 
+
+
+  
+  scene.clearColor = new BABYLON.Color3(0.1, 0.05, 0.05);
+
+  let floorMeshes = [];
+  let plane = BABYLON.MeshBuilder.CreatePlane("ground", {
+      height: 1000,
+      width: 1000
+    }, scene)
+
+  plane.rotate(BABYLON.Axis.X, Math.PI / 2, BABYLON.Space.WORLD);
+
+  plane.collisionsEnabled = true;
+  plane.checkCollisions = true;
+  plane.isVisible = false;
+  plane.position.y = 0;
+
+
+
+
+
+  if (scene.getMeshByName("skyHolder") !== null) {
+    let skyHolder = scene.getMeshByName("skyHolder");
+    skyHolder.isPickable = false;
+  }
+
+  if (scene.getMeshByName("humanSizeReference") !== null) {
+    let humanSizeReference = scene.getMeshByName("humanSizeReference");
+    humanSizeReference.setParent(null);
+
+    humanSizeReference.isVisible = false;
+    //humanSizeReference.useRightHandedSystem = false;
+
+    if (humanSizeReference.position.y < 1) { //correct
+      camera.position.y = 1.7;
+      
+    } else {
+      camera.position.y = humanSizeReference.position.y;
+    } 
+    camera.position.x = humanSizeReference.position.x; //correct
+    camera.position.z = humanSizeReference.position.z;
+
+    console.log(humanSizeReference.position.x);
+    console.log(humanSizeReference.position.y);
+    
+    //camera.position.y=100;
+    //camera.position.x=2; //correct
+    //camera.position.z=-10;
+    
+  }
+
+
+  scene.animationGroups.forEach(function(item) {
+    //item.stop();
+    item.start();
+    item.loopMode = BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE;
+  });
+
+  
+    //let root = scene.getMeshByName("__root__");
+    //if (root._children !== null) {
+      //root._children.forEach((mesh) => {
+        //console.log(mesh);
+        //mesh.setParent(null);
+
+      //});
+    //}
+
+
+  let collisionHolder = scene.getMeshByName("collisionHolder");
+  //console.log(collisionHolder._children);
+  if (collisionHolder._children !== null) {
+    collisionHolder._children.forEach((mesh) => {
+      mesh.collisionsEnabled = true;
+      mesh.checkCollisions = true;
+      mesh.isVisible = false;
+      floorMeshes.push(mesh); 
+    });
+  }
+  collisionHolder.isVisible = false;
+
+  //console.log(collisionHolder._children);
+
+
+  console.log(scene.meshes);
+
+  if (scene.getMeshByName("linkHolder") !== null) {
+    let linkHolder = scene.getMeshByName("linkHolder");
+    if (linkHolder._children !== null) {
+      linkHolder._children.forEach((mesh) => {
+        let buttonAction = function() {
+          console.log("clicka");
+        }
+        mesh.actionManager = new BABYLON.ActionManager(scene);
+        mesh.actionManager.registerAction(
+        new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, buttonAction)
+      ); 
+        //mesh.isVisible = false;
+        mesh.visibility = 0;
+        mesh.linkPopup = true;
+        
+        //mesh.collisionsEnabled = true;
+        //mesh.checkCollisions = true;
+        //mesh.isVisible = false;
+      });
+    }
+    linkHolder.isVisible = false;
+  }
+
+
+  if (scene.getMeshByName("imageHolder") !== null) {
+
+    let holder = scene.getMeshByName("imageHolder");
+    if (holder._children !== null) {
+     holder._children.forEach((mesh) => {
+        let buttonAction = function() {
+          console.log("clicka");
+        }
+        mesh.actionManager = new BABYLON.ActionManager(scene);
+        mesh.actionManager.registerAction(
+        new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, buttonAction)
+      ); 
+        //mesh.isVisible = false;
+        mesh.visibility = 0;
+        mesh.imagePopup = true;
+        //mesh.collisionsEnabled = true;
+        //mesh.checkCollisions = true;
+        //mesh.isVisible = false;
+      });
+    }
+    holder.isVisible = false;
+  }
 
 
 	function addCrosshair(scene){
@@ -285,19 +280,21 @@ const createScene = function () {
 
 
 
-  function castRay(){       
+  function castRay(scene){       
       //var origin = camera.position;
     let ray = camera.getForwardRay(200);
-      let rayHelper = new BABYLON.RayHelper(ray);
-      //console.log(rayHelper);
-      //rayHelper.show(scene);
-      hits = scene.multiPickWithRay(ray);
-  
+    let rayHelper = new BABYLON.RayHelper(ray);
+    //console.log(rayHelper);
+    //rayHelper.show(scene);
+    let hit = scene.pickWithRay(ray);
+    //console.log(hit.pickedMesh.name); 
+    console.log(hit);
+    return hit;
   }
 
   scene.registerBeforeRender(function () {
      
-      castRay();
+      //castRay();
   });
 
 
@@ -311,12 +308,15 @@ const createScene = function () {
   scene.onPointerDown = function (event, pickResult){
     //left mouse click
     if(event.button == 0){
-      vector = pickResult.pickedPoint;
+      let hit = castRay(scene);
+      //console.log(hit);
+      //vector = pickResult.pickedPoint;
       //console.log('left mouse click: ' + vector.x + ',' + vector.y + ',' + vector.z );
-      if (hits.length && windowFocused) {
+      if (hit.pickedMesh !== null && windowFocused) {
+        console.log("in hereee");
         //console.log(hits[0].pickedMesh.name);
-        let hitMesh = hits[0].pickedMesh;
-        console.log(hitMesh.name);
+        let hitMesh = hit.pickedMesh;
+        //console.log(hitMesh.name);
         
         if (viewedItem !== false) {
           viewedItem.parent = originalParent; //scene.getMeshByName("imageHolder");
@@ -325,18 +325,18 @@ const createScene = function () {
           console.log("in here");
         }
 
-        else if (hitMesh.name == "closePopupPlane") {
+        else if (hitMesh.name == "closePopupBox") {
           console.log("inna");
           modal.style.display = "none";
-          closePopupPlane.isVisible = false;
+          closePopupBox.isPickable = false;
           clearModalContent();
           
         }
 
 
         else if (hitMesh.hasOwnProperty("imagePopup")) {
-          closePopupPlane.isVisible = true;
-        
+          closePopupBox.isPickable = true;
+
           console.log('image popup');
           modal.style.display = "flex";
           document.getElementById("image").innerHTML = '<img src="images/' + hitMesh.name + '">'; 
@@ -436,14 +436,13 @@ const createScene = function () {
 
 
 
-  var closePopupPlane = BABYLON.MeshBuilder.CreatePlane("closePopupPlane", {height:100, width: 100, sideOrientation: BABYLON.Mesh.DOUBLESIDE});
-  closePopupPlane.parent = camera
-  closePopupPlane.renderingGroupId = 2; //locks in in front of everything else. Like layers
-  closePopupPlane.position.set(0, 0, 4); //how far from camera ::ttd
-  closePopupPlane.rotation.z = Math.PI / 4
-  closePopupPlane.isVisible = false;
-  closePopupPlane.visibility = 0;
-
+  var closePopupBox = BABYLON.MeshBuilder.CreateBox("closePopupBox", {height:100, width: 100});
+  closePopupBox.parent = camera
+  closePopupBox.renderingGroupId = 2; //locks in in front of everything else. Like layers
+  closePopupBox.position.set(0, 0, 0); //how far from camera ::ttd
+  closePopupBox.rotation.z = Math.PI / 4
+  //closePopupBox.isVisible = false;
+  closePopupBox.isPickable = false;
 
 
 
@@ -451,15 +450,19 @@ const createScene = function () {
     scene.debugLayer.show();
   }
 
-  return scene;
-};
+  // Register a render loop to repeatedly render the scene
+  engine.runRenderLoop(function () {
+          scene.render();
+  });
 
-const scene = createScene(); //Call the createScene function
-
-// Register a render loop to repeatedly render the scene
-engine.runRenderLoop(function () {
-        scene.render();
 });
+
+
+
+
+
+
+
 
 // Watch for browser/canvas resize events
 window.addEventListener("resize", function () {
