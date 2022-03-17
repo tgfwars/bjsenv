@@ -33,9 +33,66 @@ const engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engi
 
 BABYLON.SceneLoader.Load("", "environment.gltf", engine, function(scene) {
 
-  scene.materials.forEach(function(mtl){
-      mtl.maxSimultaneousLights = 10;
-  });
+
+  
+  (function() {
+    scene.materials.forEach(function(mtl){
+        mtl.maxSimultaneousLights = 10;
+    });
+  
+    let all = scene.getMeshByName("__root__");
+    //console.log(all.lightSources[0]);
+
+    let lightSphere = BABYLON.MeshBuilder.CreateSphere("lightSphere", {diameter:20});
+
+    lightSphere.position.x = -0.4048232436180115; //testing coords. Remove the dispose() below to gauge size of sphere
+    lightSphere.position.y = 6.872382164001465;
+    lightSphere.position.z = 44.68169403076172;
+    
+    all.lightSources.forEach(function(light) {
+     
+      //var shadowGenerator = new BABYLON.ShadowGenerator(1024, light);
+
+
+      //console.log(light.id);
+      let coords = light.getWorldMatrix();
+      let x = coords.m[12];
+      let y = coords.m[13];
+      let z = coords.m[14];
+
+      lightSphere.position.x = x; 
+      lightSphere.position.y = y; 
+      lightSphere.position.z = z; 
+
+      lightSphere.computeWorldMatrix();
+
+      all.getChildMeshes()
+      .forEach((m) => {
+          if (lightSphere.intersectsMesh(m)) {
+              //shadowGenerator.addShadowCaster(m);
+              //m.receiveShadows = true; 
+              //shadowGenerator.getShadowMap().renderList.push(m); 
+
+
+              light.includedOnlyMeshes.push(m);
+          }
+      });
+
+      //console.log(light.includedOnlyMeshes);
+
+    });
+    lightSphere.dispose();
+
+  })();
+
+
+  let mySun = scene.getLightByName("Sun");
+  //console.log(mySun);
+
+  //console.log(collisionHolder._children);
+
+
+
 
 
 
@@ -116,8 +173,8 @@ BABYLON.SceneLoader.Load("", "environment.gltf", engine, function(scene) {
     camera.position.x = humanSizeReference.position.x; //correct
     camera.position.z = humanSizeReference.position.z;
 
-    console.log(humanSizeReference.position.x);
-    console.log(humanSizeReference.position.y);
+    //console.log(humanSizeReference.position.x);
+    //console.log(humanSizeReference.position.y);
     
     //camera.position.y=100;
     //camera.position.x=2; //correct
@@ -158,7 +215,7 @@ BABYLON.SceneLoader.Load("", "environment.gltf", engine, function(scene) {
   //console.log(collisionHolder._children);
 
 
-  console.log(scene.meshes);
+  //console.log(scene.meshes);
 
   if (scene.getMeshByName("linkHolder") !== null) {
     let linkHolder = scene.getMeshByName("linkHolder");
@@ -536,3 +593,4 @@ pointerlock
   make windowFocused = false / true to prevent click again on mesh on pointerlock
   
 */
+
