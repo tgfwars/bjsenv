@@ -33,6 +33,12 @@ const engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engi
 
 BABYLON.SceneLoader.Load("", "environment.gltf", engine, function(scene) {
 
+  scene.materials.forEach(function(mtl){
+      mtl.maxSimultaneousLights = 100;
+  });
+
+
+
   let camera = new BABYLON.UniversalCamera("Camera", new BABYLON.Vector3(0, 1.7, 0), scene);//edit coordinates it should start at to match height. 2nd param important
 
   camera.minZ = 0;
