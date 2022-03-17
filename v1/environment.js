@@ -34,7 +34,7 @@ const engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engi
 BABYLON.SceneLoader.Load("", "environment.gltf", engine, function(scene) {
 
   scene.materials.forEach(function(mtl){
-      mtl.maxSimultaneousLights = 100;
+      mtl.maxSimultaneousLights = 10;
   });
 
 
