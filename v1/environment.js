@@ -51,7 +51,7 @@ BABYLON.SceneLoader.Load("", "environment.gltf", engine, function(scene) {
     
     all.lightSources.forEach(function(light) {
      
-      //var shadowGenerator = new BABYLON.ShadowGenerator(1024, light);
+      let shadowGenerator = new BABYLON.ShadowGenerator(1024, light);
 
 
       //console.log(light.id);
@@ -68,10 +68,12 @@ BABYLON.SceneLoader.Load("", "environment.gltf", engine, function(scene) {
 
       all.getChildMeshes()
       .forEach((m) => {
+      
           if (lightSphere.intersectsMesh(m)) {
               //shadowGenerator.addShadowCaster(m);
-              //m.receiveShadows = true; 
               //shadowGenerator.getShadowMap().renderList.push(m); 
+              shadowGenerator.addShadowCaster(m, true);
+              m.receiveShadows = true; 
 
 
               light.includedOnlyMeshes.push(m);
