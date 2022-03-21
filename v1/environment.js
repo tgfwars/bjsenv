@@ -201,19 +201,20 @@ BABYLON.SceneLoader.Load("", "environment.gltf", engine, function(scene) {
       //});
     //}
 
+  if (scene.getMeshByName("collisionHolder") !== null) {
 
-  let collisionHolder = scene.getMeshByName("collisionHolder");
-  //console.log(collisionHolder._children);
-  if (collisionHolder._children !== null) {
-    collisionHolder._children.forEach((mesh) => {
-      mesh.collisionsEnabled = true;
-      mesh.checkCollisions = true;
-      mesh.isVisible = false;
-      floorMeshes.push(mesh); 
-    });
+    let collisionHolder = scene.getMeshByName("collisionHolder");
+    //console.log(collisionHolder._children);
+    if (collisionHolder._children !== null) {
+      collisionHolder._children.forEach((mesh) => {
+        mesh.collisionsEnabled = true;
+        mesh.checkCollisions = true;
+        mesh.isVisible = false;
+        floorMeshes.push(mesh); 
+      });
+    }
+    collisionHolder.isVisible = false;
   }
-  collisionHolder.isVisible = false;
-
   //console.log(collisionHolder._children);
 
 
