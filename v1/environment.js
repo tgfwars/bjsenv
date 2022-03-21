@@ -88,7 +88,7 @@ BABYLON.SceneLoader.Load("", "environment.gltf", engine, function(scene) {
   })();
 
 
-  let mySun = scene.getLightByName("Sun");
+ 
   //console.log(mySun);
 
   //console.log(collisionHolder._children);
