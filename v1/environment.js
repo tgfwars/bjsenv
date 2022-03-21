@@ -52,7 +52,7 @@ BABYLON.SceneLoader.Load("", "environment.gltf", engine, function(scene) {
     all.lightSources.forEach(function(light) {
      
       let shadowGenerator = new BABYLON.ShadowGenerator(1024, light);
-
+      shadowGenerator.useBlurExponentialShadowMap = true;
 
       //console.log(light.id);
       let coords = light.getWorldMatrix();
