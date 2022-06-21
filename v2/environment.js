@@ -81,9 +81,9 @@ teleportation.parabolicCheckRadius = 2; // How far you can teleport #edit
 
 
 function clearModalContent() {
-    document.getelementbyid("youtube").innerhtml = ""; 
-    document.getelementbyid("image").innerhtml = ""; 
-
+    document.getElementById("youtube").innerHTML = ""; 
+    document.getElementById("image").innerHTML = ""; 
+  console.log('cleared');
 }
 
 var modal = document.getElementById("myModal");
