@@ -21,7 +21,7 @@ var scene = new BABYLON.Scene(engine);
 //////////////////////////////////////
 
 //////////////// START first person controls. Below is code for making first-person controls for non-vr control
-scene.gravity = new BABYLON.Vector3(0, -2, 0);   // x, y and z. Y is up/down so -2 creates gravity
+scene.gravity = new BABYLON.Vector3(0, -0.1, 0);   // x, y and z. Y is up/down so -2 creates gravity
 
 // good camera for First person walking controls
 let camera = new BABYLON.UniversalCamera("Camera", new BABYLON.Vector3(2, 3, 2), scene);
