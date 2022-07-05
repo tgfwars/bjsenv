@@ -224,6 +224,13 @@ if (scene.getMeshByName("humanSizeReference") !== null) {
     light.intensity = 0.1;
 
 
+////////////// FOG
+if (settings.fog) {
+  scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
+  scene.fogDensity = settings.fog;
+}
+
+
     return scene;
 };
                 window.initFunction = async function() {
