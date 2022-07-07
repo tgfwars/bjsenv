@@ -104,10 +104,11 @@ scene.animationGroups.forEach(function(animation) {
 
 let floorMeshes = [];
 
-if (scene.getMeshByName("collisionHolder") !== null) {
-    let collisionHolder = scene.getMeshByName("collisionHolder");
+
+let collisionHolder = scene.getNodeByName("collisionHolder");
+if (collisionHolder) {
     //console.log(collisionHolder._children);
-    if (collisionHolder._children !== null) {
+    if (collisionHolder._children) {
         collisionHolder._children.forEach((mesh) => {
         mesh.collisionsEnabled = true;
         mesh.checkCollisions = true;
@@ -122,10 +123,10 @@ if (scene.getMeshByName("collisionHolder") !== null) {
 
 
 
-if (scene.getMeshByName("imageHolder") !== null) {
+let imageHolder = scene.getNodeByName("imageHolder");
+if (imageHolder) {
 
-    let imageHolder = scene.getMeshByName("imageHolder");
-    if (imageHolder._children !== null) {
+    if (imageHolder._children) {
      imageHolder._children.forEach((mesh) => {
         let buttonAction = function() {
           console.log("clicka", mesh.name);
@@ -161,9 +162,9 @@ function generateYouTubeEmbed(url) {
   return output;
 }
 
-if (scene.getMeshByName("linkHolder") !== null) {
-    let linkHolder = scene.getMeshByName("linkHolder");
-    if (linkHolder._children !== null) {
+let linkHolder = scene.getNodeByName("linkHolder");
+if (linkHolder) {
+    if (linkHolder._children) {
       linkHolder._children.forEach((mesh) => {
         let buttonAction = function() {
           console.log("clicka");
