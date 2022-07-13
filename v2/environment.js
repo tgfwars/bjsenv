@@ -41,7 +41,7 @@ camera.keysLeft.push(65);
 camera.keysRight.push(68);
 
 // how fast the camera (aka player) moves
-scene.activeCamera.speed = .3;
+scene.activeCamera.speed = .2;
 
 // this creates a collision shape attached to camera so the camera can be affected by gravity
 camera.ellipsoid = new BABYLON.Vector3(.1, .7, .1);
