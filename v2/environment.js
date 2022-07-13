@@ -26,7 +26,7 @@ scene.gravity = new BABYLON.Vector3(0, -0.1, 0);   // x, y and z. Y is up/down s
 // good camera for First person walking controls
 let camera = new BABYLON.UniversalCamera("Camera", new BABYLON.Vector3(2, 3, 2), scene);
 // This targets the camera to scene origin. Makes the camera point in a particular spot. #edit
-camera.setTarget(new BABYLON.Vector3(0, 3, 0));
+//camera.setTarget(new BABYLON.Vector3(0, 3, 0));
 // This attaches the camera to the canvas
 camera.attachControl(canvas, true);
 
@@ -51,11 +51,11 @@ camera._needMoveForGravity = true;
 
 // creates an invisible ground plane that user can stand on
 var hiddenGround = BABYLON.MeshBuilder.CreateGround("ground", {width: 1000, height: 1000}, scene);
-hiddenGround.collisionsEnabled = true;
+//hiddenGround.collisionsEnabled = true;
 hiddenGround.checkCollisions = true;
 hiddenGround.isVisible = false;
 
-scene.defaultCursor = 'pointer';
+//scene.defaultCursor = 'pointer';
 ///////////// END first person controls
 
 ////////////// XR functionality Makes the scene VR Headset-friendly. Adds teleportation controls
@@ -98,6 +98,7 @@ close.addEventListener('click', function (event) {
 
 await BABYLON.SceneLoader.AppendAsync("", "environment.glb"); //the first animation in the first file added plays automatically. All others need to be triggered/played manually (see below)
 
+
 scene.animationGroups.forEach(function(animation) {
     animation.start(true);
 });
@@ -110,7 +111,7 @@ if (collisionHolder) {
     //console.log(collisionHolder._children);
     if (collisionHolder._children) {
         collisionHolder._children.forEach((mesh) => {
-        mesh.collisionsEnabled = true;
+        //mesh.collisionsEnabled = true;
         mesh.checkCollisions = true;
         mesh.isVisible = false;
         floorMeshes.push(mesh); 
@@ -188,11 +189,15 @@ if (linkHolder) {
 
 
 if (scene.getMeshByName("humanSizeReference") !== null) {
-    let humanSizeReference = scene.getMeshByName("humanSizeReference");
-    humanSizeReference.setParent(null);
 
+
+
+    let humanSizeReference = scene.getMeshByName("humanSizeReference");
+
+    humanSizeReference.setParent(null);
     humanSizeReference.isVisible = false;
-    //humanSizeReference.useRightHandedSystem = false;
+
+    camera.rotation.y = humanSizeReference.rotationQuaternion.toEulerAngles().y;
 
     if (humanSizeReference.position.y < 1) { //correct
       camera.position.y = 1.7;
