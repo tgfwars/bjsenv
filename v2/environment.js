@@ -230,12 +230,14 @@ if (scene.getMeshByName("humanSizeReference") !== null) {
     light.intensity = 0.1;
 
 
-////////////// FOG
-if (settings.fog) {
-  scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
-  scene.fogDensity = settings.fog;
+// check if settings.js is included, which as settings variable declared
+if (typeof settings !== 'undefined') {
+  ////////////// FOG
+  if (settings.fog) {
+    scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
+    scene.fogDensity = settings.fog;
+  }
 }
-
 
     return scene;
 };
