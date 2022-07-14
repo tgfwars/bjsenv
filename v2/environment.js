@@ -130,7 +130,7 @@ await BABYLON.SceneLoader.AppendAsync("", "environment.glb"); //the first animat
 
 /// shadows and lights
 (function(){
-  if (!settings.shadowReceivers) return; // needs an array of mesh names that will receive shadows. Eg. floor
+  if (!(settings.shadows || settings.shadowReceivers)) return; // shadowReceivers = an array of mesh names that will receive shadows. Eg. floor, wall
   
   let all = scene.getMeshByName("__root__");
 
@@ -166,20 +166,27 @@ await BABYLON.SceneLoader.AppendAsync("", "environment.glb"); //the first animat
       // lightSphere.computeWorldMatrix(true);
       if (!lightSphere.intersectsMesh(mesh)) {
         shadowGenerator.getShadowMap().renderList.push(mesh);
+
+        if (settings.shadows) mesh.receiveShadows = true;
       } else {
         console.log(mesh.id);
 
       }
     });
   });
- 
-  //object that receive shadows. Don't do everything or else it's too heavy
+
+  
+
+  //custom list of objects that receive shadows. 
+  if (!settings.shadowReceivers) return;
+
   settings.shadowReceivers.forEach(function(meshName) {
     console.log(meshName)
     let mesh = scene.getMeshByName(meshName);
     if (mesh) 
       mesh.receiveShadows = true;
   });
+
 })();
 
 
