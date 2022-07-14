@@ -1,3 +1,6 @@
+        
+        
+        
         var canvas = document.getElementById("renderCanvas");
 
         var startRenderLoop = function (engine, canvas) {
@@ -14,8 +17,29 @@
         var createDefaultEngine = function() { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true,  disableWebGL2Support: false}); };
         var createScene = async function () {
 
-
+        
 var scene = new BABYLON.Scene(engine);
+
+function getUrlVars()
+{
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
+
+var _get = getUrlVars();
+
+if (_get['debug']) {
+  scene.debugLayer.show();
+}
+
+
 ////////////////////////////////////////
 // Probably don't need to edit below //
 //////////////////////////////////////
@@ -78,7 +102,7 @@ teleportation.parabolicCheckRadius = 2; // How far you can teleport #edit
 //////////////////////////////////////
 
 
-
+var gl = new BABYLON.GlowLayer("glow", scene);
 
 function clearModalContent() {
     document.getElementById("youtube").innerHTML = ""; 
