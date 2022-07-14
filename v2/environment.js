@@ -102,6 +102,8 @@ teleportation.parabolicCheckRadius = 2; // How far you can teleport #edit
 //////////////////////////////////////
 
 
+
+
 var gl = new BABYLON.GlowLayer("glow", scene);
 
 function clearModalContent() {
@@ -121,6 +123,64 @@ close.addEventListener('click', function (event) {
 
 
 await BABYLON.SceneLoader.AppendAsync("", "environment.glb"); //the first animation in the first file added plays automatically. All others need to be triggered/played manually (see below)
+
+
+
+
+
+/// shadows and lights
+(function(){
+  if (!settings.shadowReceivers) return; // needs an array of mesh names that will receive shadows. Eg. floor
+  
+  let all = scene.getMeshByName("__root__");
+
+  all.lightSources.forEach(function(light, i) {
+    let shadowGenerator = new BABYLON.ShadowGenerator(2048, light);
+    light.range = 10; 
+
+    shadowGenerator.usePoissonSampling = true;
+    // shadowGenerator.useBlurExponentialShadowMap = true;
+    // shadowGenerator.useKernelBlur = true;
+    // shadowGenerator.blurKernel = 64;
+
+
+    let lightSphere = BABYLON.MeshBuilder.CreateSphere("lightSphere", {diameter:.001});
+
+
+    lightSphere.isVisible = false;
+
+    let coords = light.getWorldMatrix();
+    let x = coords.m[12];
+    let y = coords.m[13];
+    let z = coords.m[14];
+
+    lightSphere.position.x = x; 
+    lightSphere.position.y = y; 
+    lightSphere.position.z = z; 
+    lightSphere.computeWorldMatrix(true);
+    
+
+    // make all meshes cast shadows. Add them to the list of meshes which cast/generate shadows
+    all.getChildMeshes()
+    .forEach((mesh) => {
+      // lightSphere.computeWorldMatrix(true);
+      if (!lightSphere.intersectsMesh(mesh)) {
+        shadowGenerator.getShadowMap().renderList.push(mesh);
+      } else {
+        console.log(mesh.id);
+
+      }
+    });
+  });
+ 
+  //object that receive shadows. Don't do everything or else it's too heavy
+  settings.shadowReceivers.forEach(function(meshName) {
+    console.log(meshName)
+    let mesh = scene.getMeshByName(meshName);
+    if (mesh) 
+      mesh.receiveShadows = true;
+  });
+})();
 
 
 scene.animationGroups.forEach(function(animation) {
