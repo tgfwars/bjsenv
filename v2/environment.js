@@ -138,7 +138,7 @@ await BABYLON.SceneLoader.AppendAsync("", "environment.glb"); //the first animat
     let shadowGenerator = new BABYLON.ShadowGenerator(2048, light);
     light.range = 10; 
 
-    shadowGenerator.usePoissonSampling = true;
+    // shadowGenerator.usePoissonSampling = true;
     // shadowGenerator.useBlurExponentialShadowMap = true;
     // shadowGenerator.useKernelBlur = true;
     // shadowGenerator.blurKernel = 64;
