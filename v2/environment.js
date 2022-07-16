@@ -124,7 +124,9 @@ close.addEventListener('click', function (event) {
 
 await BABYLON.SceneLoader.AppendAsync("", "environment.glb"); //the first animation in the first file added plays automatically. All others need to be triggered/played manually (see below)
 
-
+scene.materials.forEach(function(mtl){
+    mtl.maxSimultaneousLights = 10;
+});
 
 
 
