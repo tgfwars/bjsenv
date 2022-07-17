@@ -316,11 +316,14 @@ if (scene.getMeshByName("humanSizeReference") !== null) {
 ///////////////////////////
 
 
-    // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-    var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+// This creates a light, aiming 0,1,0 - to the sky (non-mesh)
+var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
 
-    // Default intensity is 1. Let's dim the light a small amount
-    light.intensity = 0.1;
+if (typeof(settings.light) !== 'undefined') {
+light.intensity = settings.light;
+} else {
+light.intensity = 0.1;
+}
 
 
 // check if settings.js is included, which as settings variable declared
