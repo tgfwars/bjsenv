@@ -338,16 +338,12 @@ if (typeof settings !== 'undefined') {
 }
                 
                 
-  if (settings.skyDome) {
-    var dome = new BABYLON.PhotoDome(
-        "sky",
-        "images/" + settings.skyDome,
-        {
-        size: 1000        
-        },
-    )
-    dome.infiniteDistance = true; //keep skybox always stationary
-  }
+              
+                
+    let skyDome = scene.getNodeByName("skyDome");
+    if (skyDome) {
+      skyDome.material.fogEnabled = false;
+    }
 
     return scene;
 };
