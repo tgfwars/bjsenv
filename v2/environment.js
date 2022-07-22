@@ -336,6 +336,18 @@ if (typeof settings !== 'undefined') {
     scene.fogDensity = settings.fog;
   }
 }
+                
+                
+  if (settings.skyDome) {
+    var dome = new BABYLON.PhotoDome(
+        "sky",
+        "images/" + settings.skyDome,
+        {
+        size: 1000        
+        },
+    )
+    dome.infiniteDistance = true; //keep skybox always stationary
+  }
 
     return scene;
 };
