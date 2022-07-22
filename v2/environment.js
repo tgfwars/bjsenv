@@ -55,7 +55,7 @@ let camera = new BABYLON.UniversalCamera("Camera", new BABYLON.Vector3(2, 3, 2),
 camera.attachControl(canvas, true);
 
 camera.minZ = 0;
-camera.maxZ = 10000; // Clipping distance
+camera.maxZ = 100000; // Clipping distance
 
 
 // Allow WASD in addition to arrow keys to move
