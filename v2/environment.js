@@ -83,9 +83,10 @@ hiddenGround.isVisible = false;
 ///////////// END first person controls
 
 ////////////// XR functionality Makes the scene VR Headset-friendly. Adds teleportation controls
+let floorMeshes = [];
 var xrHelper  = await scene.createDefaultXRExperienceAsync({
     // define the floor meshes
-    floorMeshes: [hiddenGround] //This is an array of meshes that the player can teleport to. #edit
+    floorMeshes: floorMeshes; //This is an array of meshes that the player can teleport to. #edit
 });
 
 const teleportation = xrHelper.teleportation; //creates a variable that allows for more customization of teleportation options.
@@ -198,7 +199,7 @@ scene.animationGroups.forEach(function(animation) {
     animation.start(true);
 });
 
-let floorMeshes = [];
+
 
 
 let collisionHolder = scene.getNodeByName("collisionHolder");
