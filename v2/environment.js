@@ -86,7 +86,7 @@ hiddenGround.isVisible = false;
 let floorMeshes = [];
 var xrHelper  = await scene.createDefaultXRExperienceAsync({
     // define the floor meshes
-    floorMeshes: floorMeshes; //This is an array of meshes that the player can teleport to. #edit
+    floorMeshes: floorMeshes //This is an array of meshes that the player can teleport to. #edit
 });
 
 const teleportation = xrHelper.teleportation; //creates a variable that allows for more customization of teleportation options.
