@@ -82,21 +82,32 @@ hiddenGround.isVisible = false;
 //scene.defaultCursor = 'pointer';
 ///////////// END first person controls
 
-////////////// XR functionality Makes the scene VR Headset-friendly. Adds teleportation controls
 let floorMeshes = [];
-var xrHelper  = await scene.createDefaultXRExperienceAsync({
-    // define the floor meshes
-    floorMeshes: floorMeshes //This is an array of meshes that the player can teleport to. #edit
-});
+try {
+  ////////////// XR functionality Makes the scene VR Headset-friendly. Adds teleportation controls
+  var xrHelper  = await scene.createDefaultXRExperienceAsync({
+      // define the floor meshes
+      floorMeshes: floorMeshes//[hiddenGround] //This is an array of meshes that the player can teleport to. #edit
+  });
 
-const teleportation = xrHelper.teleportation; //creates a variable that allows for more customization of teleportation options.
+  const teleportation = xrHelper.teleportation; //creates a variable that allows for more customization of teleportation options.
 
-// If you want to add more meshes after the xrHelper has already been created
-//teleportation.addFloorMesh(ground2); //ground2 would be the name of another mesh you create.
+  // If you want to add more meshes after the xrHelper has already been created
+  //teleportation.addFloorMesh(ground2); //ground2 would be the name of another mesh you create.
 
-teleportation.parabolicRayEnabled = true; // False = cast a straight line for teleportation. True = It will cast an arc for telportation
-teleportation.parabolicCheckRadius = 2; // How far you can teleport #edit
-/////////////// END XR functionality
+  teleportation.parabolicRayEnabled = true; // False = cast a straight line for teleportation. True = It will cast an arc for telportation
+  teleportation.parabolicCheckRadius = 2; // How far you can teleport #edit
+  /////////////// END XR functionality
+} catch (e) {
+  console.log(e)
+}
+
+let webXr = "xr" in window.navigator;
+// turn off shadows and fog for VR mode
+if (!webXr) {
+  settings.shadows = false;
+  settings.fog = 0;
+}
 
 ////////////////////////////////////////
 // Probably don't need to edit above //
