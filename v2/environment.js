@@ -99,15 +99,17 @@ try {
 
   teleportation.parabolicRayEnabled = true; // False = cast a straight line for teleportation. True = It will cast an arc for telportation
   teleportation.parabolicCheckRadius = 2; // How far you can teleport #edit
+  
+  xrHelper.baseExperience.onInitialXRPoseSetObservable.add((xrCamera) => {
+    settings.shadows = false;
+    settings.fog = 0;
+  });
+
   /////////////// END XR functionality
 } catch (e) {
   console.log(e)
 }
 
-xrHelper.baseExperience.onInitialXRPoseSetObservable.add((xrCamera) => {
-  settings.shadows = false;
-  settings.fog = 0;
-});
 
 ////////////////////////////////////////
 // Probably don't need to edit above //
