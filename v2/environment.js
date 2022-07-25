@@ -304,16 +304,16 @@ if (scene.getMeshByName("humanSizeReference") !== null) {
     humanSizeReference.setParent(null);
     humanSizeReference.isVisible = false;
 
-    camera.rotation.y = humanSizeReference.rotationQuaternion.toEulerAngles().y;
+    scene.activeCamera.rotation.y = humanSizeReference.rotationQuaternion.toEulerAngles().y;
 
     if (humanSizeReference.position.y < 1) { //correct
-      camera.position.y = 1.7;
+      scene.activeCamera.position.y = 1.7;
       
     } else {
-      camera.position.y = humanSizeReference.position.y;
+      scene.activeCamera.position.y = humanSizeReference.position.y;
     } 
-    camera.position.x = humanSizeReference.position.x; //correct
-    camera.position.z = humanSizeReference.position.z;
+    scene.activeCamera.position.x = humanSizeReference.position.x; //correct
+    scene.activeCamera.position.z = humanSizeReference.position.z;
 
     //console.log(humanSizeReference.position.x);
     //console.log(humanSizeReference.position.y);
