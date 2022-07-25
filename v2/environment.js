@@ -89,9 +89,11 @@ try {
       // define the floor meshes
       floorMeshes: floorMeshes//[hiddenGround] //This is an array of meshes that the player can teleport to. #edit
   });
-
+  console.log(xrHelper)
+  // turn off shadows and fog for VR mode
   const teleportation = xrHelper.teleportation; //creates a variable that allows for more customization of teleportation options.
-
+  if (xrHelper.teleportation) {
+  }
   // If you want to add more meshes after the xrHelper has already been created
   //teleportation.addFloorMesh(ground2); //ground2 would be the name of another mesh you create.
 
@@ -102,12 +104,10 @@ try {
   console.log(e)
 }
 
-let webXr = "xr" in window.navigator;
-// turn off shadows and fog for VR mode
-if (!webXr) {
+xrHelper.baseExperience.onInitialXRPoseSetObservable.add((xrCamera) => {
   settings.shadows = false;
   settings.fog = 0;
-}
+});
 
 ////////////////////////////////////////
 // Probably don't need to edit above //
