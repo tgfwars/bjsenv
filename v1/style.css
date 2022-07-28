@@ -33,6 +33,7 @@ html, body {
   background-color: #fefefe;
   margin: auto auto; /* 15% from the top and centered */
   padding: 20px;
+  margin-top:5vh;
   border: 1px solid #888;
   width: 50%; /* Could be more or less, depending on screen size */
 }
