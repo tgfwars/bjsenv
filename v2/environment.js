@@ -73,7 +73,7 @@ camera.checkCollisions = true;
 camera.applyGravity = true;
 camera._needMoveForGravity = true;
                 
-if (typeof settings.floor == 'undefined' || settings.floor == true) {
+if (typeof settings == 'undefined' || typeof settings.floor == 'undefined' || settings.floor == true) {
   // creates an invisible ground plane that user can stand on
   var hiddenGround = BABYLON.MeshBuilder.CreateGround("ground", {width: 1000, height: 1000}, scene);
   //hiddenGround.collisionsEnabled = true;
@@ -148,7 +148,7 @@ scene.materials.forEach(function(mtl){
 
 /// shadows and lights
 (function(){
-  if (!(settings.shadows || settings.shadowReceivers)) return; // shadowReceivers = an array of mesh names that will receive shadows. Eg. floor, wall
+  if (typeof settings == 'undefined' || !(settings.shadows || settings.shadowReceivers)) return; // shadowReceivers = an array of mesh names that will receive shadows. Eg. floor, wall
   
   let all = scene.getMeshByName("__root__");
 
@@ -188,7 +188,7 @@ scene.materials.forEach(function(mtl){
       if (!lightSphere.intersectsMesh(mesh)) {
         shadowGenerator.getShadowMap().renderList.push(mesh);
 
-        if (settings.shadows) mesh.receiveShadows = true;
+        if (typeof settings !== 'undefined' && settings.shadows) mesh.receiveShadows = true;
       } else {
         console.log(mesh.id);
 
@@ -338,7 +338,7 @@ if (scene.getMeshByName("humanSizeReference") !== null) {
 // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
 var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
 
-if (typeof(settings.light) !== 'undefined') {
+if (typeof(settings) !== 'undefined' && typeof(settings.light) !== 'undefined') {
 light.intensity = settings.light;
 } else {
 light.intensity = 0.1;
