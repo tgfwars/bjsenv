@@ -153,8 +153,9 @@ scene.materials.forEach(function(mtl){
   all.lightSources.forEach(function(light, i) {
     let shadowGenerator = new BABYLON.ShadowGenerator(2048, light);
     shadowGenerator.usePercentageCloserFiltering = true;
-
-    light.range = 10; 
+    shadowGenerator.bias = 0.000002;
+    shadowGenerator.normalBias = 0.005; 
+//     light.range = 10; 
 
     // shadowGenerator.usePoissonSampling = true;
     // shadowGenerator.useBlurExponentialShadowMap = true;
