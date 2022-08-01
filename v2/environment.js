@@ -72,12 +72,14 @@ camera.ellipsoid = new BABYLON.Vector3(.1, .7, .1);
 camera.checkCollisions = true;   
 camera.applyGravity = true;
 camera._needMoveForGravity = true;
-
-// creates an invisible ground plane that user can stand on
-var hiddenGround = BABYLON.MeshBuilder.CreateGround("ground", {width: 1000, height: 1000}, scene);
-//hiddenGround.collisionsEnabled = true;
-hiddenGround.checkCollisions = true;
-hiddenGround.isVisible = false;
+                
+if (typeof settings.floor == 'undefined' || settings.floor == true) {
+  // creates an invisible ground plane that user can stand on
+  var hiddenGround = BABYLON.MeshBuilder.CreateGround("ground", {width: 1000, height: 1000}, scene);
+  //hiddenGround.collisionsEnabled = true;
+  hiddenGround.checkCollisions = true;
+  hiddenGround.isVisible = false;
+}
 
 //scene.defaultCursor = 'pointer';
 ///////////// END first person controls
