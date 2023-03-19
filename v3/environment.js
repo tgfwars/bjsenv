@@ -228,7 +228,7 @@ scene.animationGroups.forEach(function(animation) {
 
 scene.meshes.forEach((mesh) => {
   if (mesh.metadata?.gltf?.extras?.bjs_props?.collision) {
-    mesh.isVisible = false;
+    mesh.visibility = 0;
     mesh.checkCollisions = true;
     floorMeshes.push(mesh); 
   }
