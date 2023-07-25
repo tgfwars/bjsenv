@@ -219,9 +219,6 @@ var createScene = async function () {
   })();
 
 
-  scene.animationGroups.forEach(function (animation) {
-    animation.start(true);
-  });
 
 
   scene.meshes.forEach((mesh) => {
@@ -357,11 +354,11 @@ var createScene = async function () {
     linkHolder.isVisible = false;
   }
 
-  scene.stopAllAnimations();
 
-  scene.animationGroups.forEach(ag => {
-    console.log("ag", ag)
-  })
+  scene.animationGroups.forEach(function (animation) {
+    animation.start(true);
+  });
+
   scene.meshes.forEach((mesh) => {
     if (mesh.name === "icoSphereClicker" || mesh.name === "Cube")
       console.log("gltf data", mesh.metadata);
@@ -370,12 +367,13 @@ var createScene = async function () {
   scene.meshes.forEach((mesh) => {
     if (mesh.metadata?.gltf?.extras?.bjs_props?.animation_action) {
       let animationGroupName = mesh.metadata?.gltf?.extras?.bjs_props?.animation_action
+      let animationGroup = scene.getAnimationGroupByName(animationGroupName);
+      animationGroup.stop();
       let loop = mesh.metadata?.gltf?.extras?.bjs_props?.loop_animation;
       mesh.visibility = 0;
       mesh.actionManager = mesh.actionManager ?? new BABYLON.ActionManager(scene);
       mesh.actionManager.registerAction(
         new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, function () {
-          let animationGroup = scene.getAnimationGroupByName(animationGroupName);
           if (animationGroup) {
             stopAnimationsOnSameMeshes(animationGroup);
 
@@ -471,7 +469,9 @@ var createScene = async function () {
       }
     });
   }
-
+  if (typeof settings.myCode === 'function') {
+    settings.myCode(scene);
+  }
 
   // createPointerLock(scene);
   return scene;
