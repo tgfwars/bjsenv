@@ -1,5 +1,6 @@
 
 
+
 var canvas = document.getElementById("renderCanvas");
 
 var startRenderLoop = function (engine, canvas) {
@@ -223,8 +224,7 @@ var createScene = async function () {
 
   scene.meshes.forEach((mesh) => {
     if (mesh.metadata?.gltf?.extras?.bjs_props?.collision) {
-      mesh.visibility = 0;
-
+      mesh.isPickable = false;
       if (debug) {
         mesh.visibility = 0.5
       } else {
