@@ -1,6 +1,5 @@
 
 
-
 var canvas = document.getElementById("renderCanvas");
 
 var startRenderLoop = function (engine, canvas) {
@@ -43,9 +42,10 @@ var createScene = async function () {
   }
 
   var _get = getUrlVars();
-
+  let debug = false;
   if (_get['debug']) {
     scene.debugLayer.show();
+    debug = true;
   }
 
 
@@ -224,6 +224,12 @@ var createScene = async function () {
   scene.meshes.forEach((mesh) => {
     if (mesh.metadata?.gltf?.extras?.bjs_props?.collision) {
       mesh.visibility = 0;
+
+      if (debug) {
+        mesh.visibility = 0.5
+      } else {
+        mesh.visibility = 0;
+      }
       mesh.checkCollisions = true;
       floorMeshes.push(mesh);
     }
@@ -251,7 +257,11 @@ var createScene = async function () {
   scene.meshes.forEach((mesh) => {
     if (mesh.metadata?.gltf?.extras?.bjs_props?.image) {
       let image = mesh.metadata?.gltf?.extras?.bjs_props?.image;
-      mesh.visibility = 0;
+      if (debug) {
+        mesh.visibility = 0.5
+      } else {
+        mesh.visibility = 0;
+      }
       let buttonAction = function () {
         console.log("clicka", mesh.name);
 
@@ -314,7 +324,11 @@ var createScene = async function () {
   scene.meshes.forEach((mesh) => {
     if (mesh.metadata?.gltf?.extras?.bjs_props?.url) {
       let url = mesh.metadata?.gltf?.extras?.bjs_props?.url
-      mesh.visibility = 0;
+      if (debug) {
+        mesh.visibility = 0.5
+      } else {
+        mesh.visibility = 0;
+      }
       let buttonAction = function () {
         modal.style.display = "flex";
         document.getElementById("youtube").innerHTML = generateYouTubeEmbed(url);
@@ -323,7 +337,6 @@ var createScene = async function () {
       mesh.actionManager.registerAction(
         new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, buttonAction)
       );
-      mesh.visibility = 0;
       // mesh.checkCollisions = true;
     }
   })
@@ -370,7 +383,11 @@ var createScene = async function () {
       let animationGroup = scene.getAnimationGroupByName(animationGroupName);
       animationGroup.stop();
       let loop = mesh.metadata?.gltf?.extras?.bjs_props?.loop_animation;
-      mesh.visibility = 0;
+      if (debug) {
+        mesh.visibility = 0.5
+      } else {
+        mesh.visibility = 0;
+      }
       mesh.actionManager = mesh.actionManager ?? new BABYLON.ActionManager(scene);
       mesh.actionManager.registerAction(
         new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, function () {
@@ -388,10 +405,9 @@ var createScene = async function () {
   })
 
 
+  let humanSizeReference = scene.getMeshByName("humanSizeReference") || scene.getMeshByName("humansizereference");
 
-  if (scene.getMeshByName("humanSizeReference") !== null) {
-
-
+  if (humanSizeReference) {
 
     let humanSizeReference = scene.getMeshByName("humanSizeReference");
 
