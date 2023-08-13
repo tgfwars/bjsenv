@@ -224,7 +224,7 @@ var createScene = async function () {
 
   scene.meshes.forEach((mesh) => {
     if (mesh.metadata?.gltf?.extras?.bjs_props?.collision) {
-      mesh.isPickable = false;
+      // mesh.isPickable = false;
       if (debug) {
         mesh.visibility = 0.5
       } else {
