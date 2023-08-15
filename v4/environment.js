@@ -1,6 +1,5 @@
 
 
-
 var canvas = document.getElementById("renderCanvas");
 
 var startRenderLoop = function (engine, canvas) {
@@ -224,7 +223,8 @@ var createScene = async function () {
 
   scene.meshes.forEach((mesh) => {
     if (mesh.metadata?.gltf?.extras?.bjs_props?.collision) {
-      // mesh.isPickable = false;
+
+      console.log(mesh.name + " has collisions")
       if (debug) {
         mesh.visibility = 0.5
       } else {
@@ -257,6 +257,7 @@ var createScene = async function () {
   scene.meshes.forEach((mesh) => {
     if (mesh.metadata?.gltf?.extras?.bjs_props?.image) {
       let image = mesh.metadata?.gltf?.extras?.bjs_props?.image;
+      console.log(mesh.name + " has image popup and opens " + image)
       if (debug) {
         mesh.visibility = 0.5
       } else {
@@ -324,6 +325,8 @@ var createScene = async function () {
   scene.meshes.forEach((mesh) => {
     if (mesh.metadata?.gltf?.extras?.bjs_props?.url) {
       let url = mesh.metadata?.gltf?.extras?.bjs_props?.url
+      console.log(mesh.name + " has url popup and opens " + url);
+
       if (debug) {
         mesh.visibility = 0.5
       } else {
@@ -382,6 +385,7 @@ var createScene = async function () {
       let animationGroupName = mesh.metadata?.gltf?.extras?.bjs_props?.animation_action
       let animationGroup = scene.getAnimationGroupByName(animationGroupName);
       animationGroup.stop();
+      console.log(mesh.name + " triggers animation: " + animationGroup.name);
       let loop = mesh.metadata?.gltf?.extras?.bjs_props?.loop_animation;
       if (debug) {
         mesh.visibility = 0.5
