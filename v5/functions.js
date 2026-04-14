@@ -14,7 +14,7 @@ function addPickAction(mesh, action) {
 
 function addPhysics(mesh, settings) {
     let item = (typeof mesh === 'string') ? scene.getNodeByName(mesh) : mesh;
-   
+    if (!item) return;
     item.physicsAggregate = new BABYLON.PhysicsAggregate(item, BABYLON.PhysicsShapeType.MESH, settings);
     return item; //this lets us store in a variable too
 }
