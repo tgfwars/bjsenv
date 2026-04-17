@@ -42,7 +42,10 @@ function addPhysics(mesh, settings, colliderType="MESH") {
 
 function makePushable(mesh, strength = 3) { // pass in a string or a variable with the mesh selected
     if (!mesh) return;
-    // addPhysics(mesh, {mass: 1});
+    if (!mesh.physicsAggregate) {
+        addPhysics(mesh, {mass: 1, friction: 0.5});
+    }
+    
     let scene = mesh.getScene();
     addPickAction(mesh, function(){
         var impulseDirection = scene.activeCamera.getForwardRay().direction; //new BABYLON.Vector3(1, 0, 0);
