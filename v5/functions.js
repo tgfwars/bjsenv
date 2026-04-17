@@ -12,10 +12,31 @@ function addPickAction(mesh, action) {
 }
 
 
-function addPhysics(mesh, settings) {
+function addPhysics(mesh, settings, colliderType="MESH") {
+
+
+    colliderType = colliderType.toLowerCase();
     let item = (typeof mesh === 'string') ? scene.getNodeByName(mesh) : mesh;
     if (!item) return;
-    item.physicsAggregate = new BABYLON.PhysicsAggregate(item, BABYLON.PhysicsShapeType.MESH, settings);
+
+
+    let physicsAggregate;
+
+    switch (colliderType) {
+        case "box":
+            physicsAggregate = new BABYLON.PhysicsAggregate(item, BABYLON.PhysicsShapeType.BOX, settings);
+            break;
+        case "mesh":
+            physicsAggregate = new BABYLON.PhysicsAggregate(item, BABYLON.PhysicsShapeType.MESH, settings);
+            break;
+        case "convex_hull":
+            physicsAggregate = new BABYLON.PhysicsAggregate(item, BABYLON.PhysicsShapeType.CONVEX_HULL, settings);
+            break;
+        case "sphere":
+            physicsAggregate = new BABYLON.PhysicsAggregate(item, BABYLON.PhysicsShapeType.SPHERE, settings);
+            break;
+    }
+    item.physicsAggregate = physicsAggregate;
     return item; //this lets us store in a variable too
 }
 
