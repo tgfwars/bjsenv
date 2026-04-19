@@ -3,60 +3,86 @@
 ////////////////////////
 
 function addPickAction(mesh, action) {
-  scene = mesh.getScene();
-  mesh.actionManager = mesh.actionManager || new BABYLON.ActionManager(scene);
-  mesh.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, function(){
-    action(mesh);
-  }));
-  return mesh;
+    const scene = mesh?.getScene?.();
+
+    if (!scene) {
+        console.error("addPickAction: cannot find mesh. Check if mesh with that name exists.", mesh);
+        return null;
+    }
+
+    mesh.actionManager = mesh.actionManager || new BABYLON.ActionManager(scene);
+
+    mesh.actionManager.registerAction(
+        new BABYLON.ExecuteCodeAction(
+            BABYLON.ActionManager.OnPickTrigger,
+            function () {
+                action(mesh);
+            }
+        )
+    );
+
+    return mesh;
 }
 
-
-function addPhysics(mesh, settings, colliderType="MESH") {
-
+function addPhysics(mesh, settings, colliderType = "MESH") {
+    if (!mesh || typeof mesh.getScene !== "function") {
+        console.error("addPhysics: mesh does not exist.", mesh);
+        return null;
+    }
 
     colliderType = colliderType.toLowerCase();
-    let item = (typeof mesh === 'string') ? scene.getNodeByName(mesh) : mesh;
-    if (!item) return;
-
-
     let physicsAggregate;
 
     switch (colliderType) {
         case "box":
-            physicsAggregate = new BABYLON.PhysicsAggregate(item, BABYLON.PhysicsShapeType.BOX, settings);
+            physicsAggregate = new BABYLON.PhysicsAggregate(mesh, BABYLON.PhysicsShapeType.BOX, settings);
             break;
+
         case "mesh":
-            physicsAggregate = new BABYLON.PhysicsAggregate(item, BABYLON.PhysicsShapeType.MESH, settings);
+            physicsAggregate = new BABYLON.PhysicsAggregate(mesh, BABYLON.PhysicsShapeType.MESH, settings);
             break;
+
         case "convex_hull":
-            physicsAggregate = new BABYLON.PhysicsAggregate(item, BABYLON.PhysicsShapeType.CONVEX_HULL, settings);
+            physicsAggregate = new BABYLON.PhysicsAggregate(mesh, BABYLON.PhysicsShapeType.CONVEX_HULL, settings);
             break;
+
         case "sphere":
-            physicsAggregate = new BABYLON.PhysicsAggregate(item, BABYLON.PhysicsShapeType.SPHERE, settings);
+            physicsAggregate = new BABYLON.PhysicsAggregate(mesh, BABYLON.PhysicsShapeType.SPHERE, settings);
             break;
+
+        default:
+            console.error("addPhysics: invalid colliderType:", colliderType);
+            return null;
     }
-    item.physicsAggregate = physicsAggregate;
-    return item; //this lets us store in a variable too
+
+    mesh.physicsAggregate = physicsAggregate;
+    return mesh;
 }
 
-function makePushable(mesh, strength = 3) { // pass in a string or a variable with the mesh selected
-    if (!mesh) return;
-    if (!mesh.physicsAggregate) {
-        addPhysics(mesh, {mass: 1, friction: 0.5});
+function makePushable(mesh, strength = 3) {
+    if (!mesh || typeof mesh.getScene !== "function") {
+        console.error("makePushable: mesh does not exist.", mesh);
+        return null;
     }
-    
+
+    if (!mesh.physicsAggregate) {
+        addPhysics(mesh, { mass: 1, friction: 0.5 });
+    }
+
     let scene = mesh.getScene();
-    addPickAction(mesh, function(){
-        var impulseDirection = scene.activeCamera.getForwardRay().direction; //new BABYLON.Vector3(1, 0, 0);
+
+    addPickAction(mesh, function () {
+        var impulseDirection = scene.activeCamera.getForwardRay().direction;
         var contactLocalRefPoint = BABYLON.Vector3.Zero();
+
         mesh.physicsAggregate.body.applyImpulse(
             impulseDirection.scale(strength),
             mesh.getAbsolutePosition().add(contactLocalRefPoint)
-        )
+        );
     });
-}
 
+    return mesh;
+}
 
 //This allows chaining. eg. playAnim(a.womanPunch).wait(500).etc
 // requires playAnimationGroup and $() 
