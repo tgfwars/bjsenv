@@ -7,6 +7,7 @@ function addPickAction(mesh, action) {
 
     if (!scene) {
         console.error("addPickAction: cannot find mesh. Check if mesh with that name exists.", mesh);
+        console.trace("Call stack:");
         return null;
     }
 
@@ -27,6 +28,7 @@ function addPickAction(mesh, action) {
 function addPhysics(mesh, settings, colliderType = "MESH") {
     if (!mesh || typeof mesh.getScene !== "function") {
         console.error("addPhysics: mesh does not exist.", mesh);
+        console.trace("Call stack:");
         return null;
     }
 
@@ -62,6 +64,7 @@ function addPhysics(mesh, settings, colliderType = "MESH") {
 function makePushable(mesh, strength = 3) {
     if (!mesh || typeof mesh.getScene !== "function") {
         console.error("makePushable: mesh does not exist.", mesh);
+        console.trace("Call stack:");
         return null;
     }
 
