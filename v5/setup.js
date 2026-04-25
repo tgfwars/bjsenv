@@ -55,6 +55,8 @@ async function setup(scene) {
 
     teleportation.parabolicRayEnabled = true; // False = cast a straight line for teleportation. True = It will cast an arc for telportation
     teleportation.parabolicCheckRadius = 10; // How far you can teleport #edit
+
+    scene.xrHelper = xrHelper;
     /////////////// END XR functionality
   } catch (error) {
     console.log(error);
